@@ -1,20 +1,38 @@
+import 'package:constraint/groupPage.dart';
+import 'package:constraint/state_management.dart';
 import 'package:flutter/material.dart';
 import 'package:constraint/dataModel.dart';
+import 'package:provider/provider.dart';
 
 class AddMembers extends StatefulWidget {
+  int groupID;
+  bool editList;
+  AddMembers({required this.groupID, required this.editList});
   @override
   State<AddMembers> createState() => _AddMembersState();
 }
 
 class _AddMembersState extends State<AddMembers> {
-  final List<Member> members = [];
+  List<Member> members = [];
 
-  int memberId = 1;
+  int memberId = 0;
   String currentName = '';
   double currentBudget = 0.0;
-  // Initial member ID
+  String groupName = '';
+
   @override
   Widget build(BuildContext context) {
+    final obj = context.read<Manager>();
+    // groupName = obj.recentGroupName;
+    // print('--------');
+    // print(widget.groupID);
+    groupName = obj.groups[widget.groupID].name;
+    widget.editList
+        ? members = obj.groups[widget.groupID].members ?? []
+        : members = [];
+    widget.editList
+        ? memberId = obj.groups[widget.groupID].members?.length ?? 0
+        : memberId = 0;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -23,12 +41,13 @@ class _AddMembersState extends State<AddMembers> {
               onPressed: () {
                 Navigator.pop(context);
               }),
-          title: Text('Member Input Page'),
+          title: Text(groupName),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              Text('enter the members and their budget'),
               Expanded(
                 child: ListView.builder(
                   itemCount: members.length + 1,
@@ -47,8 +66,24 @@ class _AddMembersState extends State<AddMembers> {
                 onPressed: () {
                   // Perform action on button press (e.g., submit the form)
                   print('Submitted Members: $members');
+                  int id = 0;
+                  for (Member member in members) {
+                    member.id = id;
+                    id++;
+                    print(member.id);
+                  }
+                  obj.addMembersAndBudget(widget.groupID, members);
+                  print('----------');
+                  obj.printAllGroups();
+                  widget.editList
+                      ? Navigator.pop(context)
+                      : Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  GroupPage(groupID: widget.groupID - 1)));
                 },
-                child: Text('Submit'),
+                child: widget.editList ? Text('save') : Text('Submit'),
               ),
             ],
           ),
@@ -91,6 +126,8 @@ class _AddMembersState extends State<AddMembers> {
             setState(() {
               memberId++;
             });
+            print(newMember.name);
+            print(newMember.id);
 
             // Clear input fields
             setState(() {

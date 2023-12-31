@@ -1,4 +1,5 @@
 import 'package:constraint/addMembers.dart';
+import 'package:constraint/groupPage.dart';
 import 'package:constraint/state_management.dart';
 import 'package:constraint/dataModel.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               // Navigator.push(context,
               //     MaterialPageRoute(builder: (context) => const GroupPage()));
-              // _showStringDataPopup(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddMembers()));
+              _showStringDataPopup(context);
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => AddMembers()));
 
               // final change = context.read<Manager>();
               // change.changeText();
@@ -55,17 +56,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: value.groupLength,
                     itemBuilder: (BuildContext context, int index) {
                       final groups = value.groups;
-                      return buildGroupCard(groups[index]);
+                      return buildGroupCard(groups[index], index);
                     },
                   ),
                 )),
     );
   }
 
-  Widget buildGroupCard(Group group) {
+  Widget buildGroupCard(Group group, int id) {
     return GestureDetector(
       onTap: () {
         // Handle the onTap event
+        print(id);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GroupPage(
+                      groupID: id,
+                    )));
       },
       child: Card(
         elevation: 4, // Add elevation for box shadow

@@ -2,6 +2,8 @@ import 'package:constraint/state_management.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'addMembers.dart';
+
 class StringDataPopup extends StatefulWidget {
   @override
   _StringDataPopupState createState() => _StringDataPopupState();
@@ -28,7 +30,6 @@ class _StringDataPopupState extends State<StringDataPopup> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pop();
                   _printGroups(); // Close the popup
                 },
                 child: Text('Cancel'),
@@ -36,8 +37,8 @@ class _StringDataPopupState extends State<StringDataPopup> {
               ElevatedButton(
                 onPressed: () {
                   // Save the string data and close the popup
-                  _saveStringData();
                   Navigator.of(context).pop();
+                  _saveStringData();
                 },
                 child: Text('Save'),
               ),
@@ -58,6 +59,14 @@ class _StringDataPopupState extends State<StringDataPopup> {
     String enteredData = _textEditingController.text;
     final change = context.read<Manager>();
     change.createNewGroup(enteredData);
+    print(change.groupLength - 1);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddMembers(
+                  groupID: change.groupLength - 1,
+                  editList: false,
+                )));
     // print('String Data Saved: $enteredData');
     // You can handle the data as needed, for example, saving it to a database or updating the UI.
   }

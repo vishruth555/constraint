@@ -26,6 +26,15 @@ class Manager extends ChangeNotifier {
     _recentGroupName = name;
     notifyListeners();
   }
+  void printCurrentGroup(int id) {
+    Group group = _groups[id];
+    print('Group ID: ${group.id}');
+    print('Group Name: ${group.name}');
+    print('Group Budget: ${group.totalBudget}');
+    print('Group Members: ${group.members}');
+    print('Group Expenses: ${group.expenses}');
+    print('-------------------------');
+  }
 
   void addMembersAndBudget(int index, List<Member> members) {
     _groups[index].members = members;
