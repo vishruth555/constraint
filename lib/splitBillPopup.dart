@@ -75,16 +75,16 @@ class _SplitBillPopupState extends State<SplitBillPopup> {
                       len = expenses.length;
                       Expense expense = Expense(
                           id: len,
-                          title: 'title',
+                          title: _subjectEditingController.text,
                           amount: amount / membersLength);
                       // obj.addExpense(widget.id, expense);
                       expenses.add(expense);
                       print(expenses);
                       obj.addExpense(
                           widget.id, expenses, amount, amount / membersLength);
+
                       // // Save the string data and close the popup
-                      // Navigator.of(context).pop();
-                      // _saveStringData();
+                      Navigator.of(context).pop();
                     },
                     child: Text('Split'),
                   ),

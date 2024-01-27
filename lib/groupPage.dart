@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:constraint/addMembers.dart';
 import 'package:constraint/dataModel.dart';
 import 'package:constraint/home.dart';
@@ -22,6 +24,7 @@ class _GroupPageState extends State<GroupPage> {
     groupName = obj.groups[widget.groupID].name;
     print(widget.groupID);
     obj.printCurrentGroup(widget.groupID);
+    List<Expense> expenses = obj.groups[widget.groupID].expenses ?? [];
     return Consumer<Manager>(
         builder: (context, value, child) => Scaffold(
               appBar: AppBar(
@@ -52,9 +55,23 @@ class _GroupPageState extends State<GroupPage> {
                       onPressed: () {}, icon: Icon(Icons.data_usage_outlined)),
                 ],
               ),
-              body: Center(
-                child: Text(groupName),
-              ),
+              body: expenses.isEmpty
+                  ? Center(
+                      child: Text(
+                          '$groupName has no expenses yet, start by \nclicking on the \$ icon below'),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        reverse: true,
+                        itemCount: expenses.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(expenses[index].title),
+                            subtitle: Text(expenses[index].amount.toString()),
+                          );
+                        },
+                      ),
+                    ),
               floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.attach_money_rounded),
                 onPressed: () {
