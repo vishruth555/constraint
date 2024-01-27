@@ -1,5 +1,7 @@
 import 'package:constraint/addMembers.dart';
+import 'package:constraint/dataModel.dart';
 import 'package:constraint/home.dart';
+import 'package:constraint/splitBillPopup.dart';
 import 'package:constraint/state_management.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -53,6 +55,29 @@ class _GroupPageState extends State<GroupPage> {
               body: Center(
                 child: Text(groupName),
               ),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.attach_money_rounded),
+                onPressed: () {
+                  _showSplitBillPopup(context, obj.groups[widget.groupID]);
+                  print(obj.groups[widget.groupID].name);
+                  List<Member>? members = obj.groups[widget.groupID].members;
+                  for (Member member in members!) {
+                    String name = member.name;
+                    int id = member.id;
+                    double budget = member.budget;
+                    print('$id | $name | $budget');
+                  }
+                },
+              ),
             ));
   }
+}
+
+void _showSplitBillPopup(BuildContext context, final group) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SplitBillPopup(group: group);
+    },
+  );
 }

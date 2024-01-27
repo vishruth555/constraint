@@ -1,6 +1,7 @@
 import 'package:constraint/state_management.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:constraint/groupPage.dart';
 
 import 'addMembers.dart';
 
@@ -65,8 +66,10 @@ class _StringDataPopupState extends State<StringDataPopup> {
         MaterialPageRoute(
             builder: (context) => AddMembers(
                   groupID: change.groupLength - 1,
-                  editList: false,
+                  editList: true,
                 )));
+    // MaterialPageRoute(
+    //     builder: (context) => GroupPage(groupID: change.groupLength - 1)));
     // print('String Data Saved: $enteredData');
     // You can handle the data as needed, for example, saving it to a database or updating the UI.
   }

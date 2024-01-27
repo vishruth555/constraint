@@ -23,16 +23,10 @@ class _AddMembersState extends State<AddMembers> {
   @override
   Widget build(BuildContext context) {
     final obj = context.read<Manager>();
-    // groupName = obj.recentGroupName;
-    // print('--------');
-    // print(widget.groupID);
     groupName = obj.groups[widget.groupID].name;
-    widget.editList
-        ? members = obj.groups[widget.groupID].members ?? []
-        : members = [];
-    widget.editList
-        ? memberId = obj.groups[widget.groupID].members?.length ?? 0
-        : memberId = 0;
+    members = obj.groups[widget.groupID].members ?? [];
+
+    memberId = obj.groups[widget.groupID].members?.length ?? 0;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -81,7 +75,7 @@ class _AddMembersState extends State<AddMembers> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  GroupPage(groupID: widget.groupID - 1)));
+                                  GroupPage(groupID: widget.groupID)));
                 },
                 child: widget.editList ? Text('save') : Text('Submit'),
               ),
@@ -113,7 +107,9 @@ class _AddMembersState extends State<AddMembers> {
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             onChanged: (value) {
               // Handle budget input
-              currentBudget = double.tryParse(value) ?? 0.0;
+              setState(() {
+                currentBudget = double.tryParse(value) ?? 0.0;
+              });
             },
           ),
         ),
@@ -122,19 +118,14 @@ class _AddMembersState extends State<AddMembers> {
             // Create a new member with the entered values
             final Member newMember =
                 Member(id: memberId, name: currentName, budget: currentBudget);
-            members.add(newMember);
-            setState(() {
-              memberId++;
-            });
-            print(newMember.name);
-            print(newMember.id);
 
             // Clear input fields
             setState(() {
               currentName = '';
               currentBudget = 0.0;
+              memberId++;
+              members.add(newMember);
             });
-            // (You may want to use a state management solution for this)
           },
           icon: Icon(Icons.add),
         ),
@@ -148,20 +139,14 @@ class _AddMembersState extends State<AddMembers> {
     return Row(
       children: [
         Expanded(
-          child: Text(
-              'ID: ${member.id} | Name: ${member.name} | Budget: ${member.budget}'),
+          child: Text('Name: ${member.name} | Budget: ${member.budget}'),
         ),
         IconButton(
           onPressed: () {
             // Remove the member from the list
-            print(members);
-            members.removeAt(index);
-            print(members);
             setState(() {
-              memberId;
+              members.removeAt(index);
             });
-
-            // (You may want to use a state management solution for this)
           },
           icon: Icon(Icons.remove),
         ),
