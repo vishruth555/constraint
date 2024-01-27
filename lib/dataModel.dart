@@ -26,12 +26,13 @@ class Expense {
   String title;
   double amount;
   // Member paidBy;
-  List<Member> splitAmong;
+  // List<Member> splitAmong;
 
-  Expense(
-      {required this.id,
-      required this.title,
-      required this.amount,
-      // required this.paidBy,
-      required this.splitAmong});
+  Expense({
+    required this.id,
+    required this.title,
+    required this.amount,
+    // required this.paidBy,
+    // required this.splitAmong
+  });
 }

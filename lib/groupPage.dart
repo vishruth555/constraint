@@ -58,7 +58,8 @@ class _GroupPageState extends State<GroupPage> {
               floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.attach_money_rounded),
                 onPressed: () {
-                  _showSplitBillPopup(context, obj.groups[widget.groupID]);
+                  _showSplitBillPopup(
+                      context, obj.groups[widget.groupID], widget.groupID);
                   print(obj.groups[widget.groupID].name);
                   List<Member>? members = obj.groups[widget.groupID].members;
                   for (Member member in members!) {
@@ -73,11 +74,14 @@ class _GroupPageState extends State<GroupPage> {
   }
 }
 
-void _showSplitBillPopup(BuildContext context, final group) {
+void _showSplitBillPopup(BuildContext context, final group, final id) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return SplitBillPopup(group: group);
+      return SplitBillPopup(
+        group: group,
+        id: id,
+      );
     },
   );
 }

@@ -26,6 +26,7 @@ class Manager extends ChangeNotifier {
     _recentGroupName = name;
     notifyListeners();
   }
+
   void printCurrentGroup(int id) {
     Group group = _groups[id];
     print('Group ID: ${group.id}');
@@ -34,6 +35,24 @@ class Manager extends ChangeNotifier {
     print('Group Members: ${group.members}');
     print('Group Expenses: ${group.expenses}');
     print('-------------------------');
+  }
+
+  double? getBudget(Group group) {
+    return group.totalBudget;
+  }
+
+  void addExpense(
+      int id, List<Expense> expenses, double amount, double eachAmount) {
+    print(_groups[id].totalBudget);
+    print('check here');
+    _groups[id].expenses = expenses;
+    _groups[id].totalBudget = _groups[id].totalBudget! - amount;
+    print(_groups[id].totalBudget);
+    List<Member>? members = _groups[id].members;
+    for (Member member in members!) {
+      member.budget -= eachAmount;
+    }
+    notifyListeners();
   }
 
   void addMembersAndBudget(int index, List<Member> members) {
