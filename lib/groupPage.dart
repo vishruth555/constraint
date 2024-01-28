@@ -4,6 +4,7 @@ import 'package:constraint/splitBillPopup.dart';
 import 'package:constraint/state_management.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'utils.dart';
 
 class GroupPage extends StatefulWidget {
   int groupID;
@@ -24,7 +25,10 @@ class _GroupPageState extends State<GroupPage> {
     // List<Expense> expenses = obj.groups[widget.groupID].expenses ?? [];
     return Consumer<Manager>(
         builder: (context, value, child) => Scaffold(
+              backgroundColor: color1,
               appBar: AppBar(
+                backgroundColor: color2,
+                foregroundColor: basic1,
                 leading: IconButton(
                     icon: Icon(Icons.arrow_back_ios_new_rounded),
                     onPressed: () {
@@ -35,7 +39,10 @@ class _GroupPageState extends State<GroupPage> {
                       //         builder: (context) => HomeScreen()));
                       Navigator.popUntil(context, ModalRoute.withName('/'));
                     }),
-                title: Text(groupName),
+                title: Text(
+                  groupName,
+                  style: TextStyle(color: basic1),
+                ),
                 actions: [
                   IconButton(
                       onPressed: () {

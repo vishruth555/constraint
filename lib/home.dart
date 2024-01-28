@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:constraint/group.dart';
 import 'package:constraint/stringPopup.dart';
 import 'package:provider/provider.dart';
+import 'utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,12 +20,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Consumer<Manager>(
       builder: (context, value, child) => Scaffold(
-          backgroundColor: const Color.fromRGBO(158, 200, 185, 1),
+          backgroundColor: color1,
           appBar: AppBar(
-            backgroundColor: const Color.fromRGBO(9, 38, 53, 0.95),
+            backgroundColor: color2,
             title: const Text(
               'Constraint',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: basic1),
             ),
           ),
           floatingActionButton: FloatingActionButton(
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(15.0),
             boxShadow: const [
               BoxShadow(
-                color: Color.fromRGBO(27, 66, 66, 1),
+                color: color3,
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: Offset(0, 3),
@@ -106,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: const TextStyle(
                         fontSize: 25, // Larger text size
                         fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(158, 200, 185, 1)),
+                        color: color1),
                   ),
                 ),
                 const SizedBox(
@@ -118,15 +119,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     'members: ${group.members?.length ?? 0} \nBudget: ${group.totalBudget ?? 0}',
                     style: TextStyle(
                       fontSize: 18, // Smaller text size
-                      color: Color.fromRGBO(92, 131, 116, 1),
+                      color: color4,
                     ),
                   ),
                 ),
                 const Spacer(), // Add Spacer to push the containers to the bottom
                 Container(
                   height: 10,
-                  color:
-                      const Color.fromRGBO(92, 131, 116, 1), // Solid color bar
+                  color: color4, // Solid color bar
                 ),
                 const SizedBox(height: 8), // Add some spacing
               ],
