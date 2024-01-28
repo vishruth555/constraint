@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:constraint/addMembers.dart';
 import 'package:constraint/dataModel.dart';
-import 'package:constraint/home.dart';
 import 'package:constraint/splitBillPopup.dart';
 import 'package:constraint/state_management.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class GroupPage extends StatefulWidget {
   int groupID;
-  GroupPage({required this.groupID});
+  GroupPage({super.key, required this.groupID});
 
   @override
   State<GroupPage> createState() => _GroupPageState();
@@ -24,7 +21,7 @@ class _GroupPageState extends State<GroupPage> {
     groupName = obj.groups[widget.groupID].name;
     print(widget.groupID);
     obj.printCurrentGroup(widget.groupID);
-    List<Expense> expenses = obj.groups[widget.groupID].expenses ?? [];
+    // List<Expense> expenses = obj.groups[widget.groupID].expenses ?? [];
     return Consumer<Manager>(
         builder: (context, value, child) => Scaffold(
               appBar: AppBar(
@@ -55,23 +52,62 @@ class _GroupPageState extends State<GroupPage> {
                       onPressed: () {}, icon: Icon(Icons.data_usage_outlined)),
                 ],
               ),
-              body: expenses.isEmpty
-                  ? Center(
+              body: Column(
+                children: [
+                  if (obj.groups[widget.groupID].expenses == null)
+                    Center(
                       child: Text(
                           '$groupName has no expenses yet, start by \nclicking on the \$ icon below'),
                     )
-                  : Expanded(
-                      child: ListView.builder(
-                        reverse: true,
-                        itemCount: expenses.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(expenses[index].title),
-                            subtitle: Text(expenses[index].amount.toString()),
-                          );
-                        },
-                      ),
+                  else
+                    Container(),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount:
+                          obj.groups[widget.groupID].expenses?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                          padding: EdgeInsets.all(16.0),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                obj.groups[widget.groupID].expenses![index]
+                                    .title,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                              SizedBox(height: 8.0),
+                              Text(
+                                '₹${obj.groups[widget.groupID].expenses![index].amount}',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
+                  ),
+                ],
+              ),
               floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.attach_money_rounded),
                 onPressed: () {
