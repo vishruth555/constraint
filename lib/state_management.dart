@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:constraint/dataModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Manager extends ChangeNotifier {
   String _test = 'this is a test';

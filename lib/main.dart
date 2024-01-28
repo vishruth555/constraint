@@ -2,6 +2,7 @@ import 'package:constraint/state_management.dart';
 import 'package:flutter/material.dart';
 import 'package:constraint/home.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(

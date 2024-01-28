@@ -95,7 +95,7 @@ class _GroupPageState extends State<GroupPage> {
                               ),
                               SizedBox(height: 8.0),
                               Text(
-                                '₹${obj.groups[widget.groupID].expenses![index].amount}',
+                                '₹${obj.groups[widget.groupID].expenses![index].amount} ',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                 ),
