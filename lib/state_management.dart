@@ -65,6 +65,7 @@ class Manager extends ChangeNotifier {
       _totalBudget += member.budget;
     }
     _groups[index].totalBudget = _totalBudget;
+    _groups[index].budget = _totalBudget;
     notifyListeners();
   }
 

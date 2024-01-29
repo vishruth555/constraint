@@ -31,17 +31,7 @@ class _SplitBillPopupState extends State<SplitBillPopup> {
     return Consumer<Manager>(
         builder: (context, value, child) => AlertDialog(
               // title: const Text('Enter Split Amount'),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(Icons.arrow_back_ios_outlined)),
-                  const Text('Enter Split Amount')
-                ],
-              ),
+              title: const Text('Enter Split Amount'),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -65,28 +55,46 @@ class _SplitBillPopupState extends State<SplitBillPopup> {
                   if (amount != 0.0 && membersLength != 0)
                     Text('each has to pay ${amount / membersLength}'),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      print(membersLength);
-                      final obj = context.read<Manager>();
-                      print(obj.getBudget(widget.group));
-                      print(widget.id);
-                      expenses = obj.groups[widget.id].expenses ?? [];
-                      len = expenses.length;
-                      Expense expense = Expense(
-                          id: len,
-                          title: _subjectEditingController.text,
-                          amount: amount);
-                      // obj.addExpense(widget.id, expense);
-                      expenses.add(expense);
-                      print(expenses);
-                      obj.addExpense(
-                          widget.id, expenses, amount, amount / membersLength);
+                  Row(
+                    children: [
+                      ElevatedButton(onPressed: () {}, child: Text('custom')),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          print(membersLength);
+                          final obj = context.read<Manager>();
+                          print(obj.getBudget(widget.group));
+                          print(widget.id);
+                          expenses = obj.groups[widget.id].expenses ?? [];
+                          len = expenses.length;
+                          Expense expense = Expense(
+                            id: len,
+                            title: _subjectEditingController.text,
+                            amount: amount,
+                            time: DateTime.now(),
+                          );
+                          // obj.addExpense(widget.id, expense);
+                          expenses.add(expense);
+                          print(expenses);
+                          obj.addExpense(widget.id, expenses, amount,
+                              amount / membersLength);
 
-                      // // Save the string data and close the popup
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('Split'),
+                          // // Save the string data and close the popup
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Split'),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('cancel')),
+                    ],
                   ),
                 ],
               ),

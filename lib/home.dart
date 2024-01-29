@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(15.0),
             boxShadow: const [
               BoxShadow(
-                color: color3,
+                color: basic1,
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: Offset(0, 3),
@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: const TextStyle(
                         fontSize: 25, // Larger text size
                         fontWeight: FontWeight.bold,
-                        color: color1),
+                        color: color4),
                   ),
                 ),
                 const SizedBox(
@@ -124,9 +124,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const Spacer(), // Add Spacer to push the containers to the bottom
-                Container(
-                  height: 10,
-                  color: color4, // Solid color bar
+                FractionallySizedBox(
+                  widthFactor:
+                      (group.totalBudget ?? 0.0) / (group.budget ?? 1.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: color1,
+                    ),
+                    height: 10, // Solid color bar
+                  ),
                 ),
                 const SizedBox(height: 8), // Add some spacing
               ],

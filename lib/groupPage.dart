@@ -51,7 +51,7 @@ class _GroupPageState extends State<GroupPage> {
                             MaterialPageRoute(
                                 builder: (context) => AddMembers(
                                       groupID: widget.groupID,
-                                      editList: true,
+                                      editList: false,
                                     )));
                       },
                       icon: Icon(Icons.supervisor_account_rounded)),
@@ -73,6 +73,8 @@ class _GroupPageState extends State<GroupPage> {
                       itemCount:
                           obj.groups[widget.groupID].expenses?.length ?? 0,
                       itemBuilder: (context, index) {
+                        final time =
+                            obj.groups[widget.groupID].expenses![index].time;
                         return Container(
                           margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
                           padding: EdgeInsets.all(16.0),
@@ -102,7 +104,7 @@ class _GroupPageState extends State<GroupPage> {
                               ),
                               SizedBox(height: 8.0),
                               Text(
-                                '₹${obj.groups[widget.groupID].expenses![index].amount} ',
+                                '₹${obj.groups[widget.groupID].expenses![index].amount} paid on ${time.day}/${time.month}/${time.year} ${time.hour}:${time.minute}:${time.second}',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                 ),

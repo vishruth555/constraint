@@ -27,6 +27,8 @@ class _AddMembersState extends State<AddMembers> {
     groupName = obj.groups[widget.groupID].name;
     members = obj.groups[widget.groupID].members ?? [];
 
+    obj.addMembersAndBudget(widget.groupID, members);
+
     memberId = obj.groups[widget.groupID].members?.length ?? 0;
     return MaterialApp(
       home: Scaffold(
@@ -34,25 +36,29 @@ class _AddMembersState extends State<AddMembers> {
         appBar: AppBar(
           backgroundColor: color2,
           foregroundColor: basic1,
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_rounded),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          title: Text('Members'),
+          // leading: IconButton(
+          //     icon: Icon(Icons.arrow_back_ios_new_rounded),
+          //     onPressed: () {
+          //       Navigator.pop(context);
+          //     }),
+          title: Text('Members of $groupName'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Text('enter the members and their budget'),
+              widget.editList
+                  ? Text('enter the members and their budget')
+                  : Container(),
               Expanded(
                 child: ListView.builder(
                   itemCount: members.length + 1,
                   itemBuilder: (context, index) {
                     if (index == members.length) {
                       // Last item for adding new member
-                      return buildAddMemberRow();
+                      return widget.editList
+                          ? buildAddMemberRow()
+                          : Container();
                     } else {
                       // Input fields for existing members
                       return buildMemberRow(index);
@@ -73,15 +79,9 @@ class _AddMembersState extends State<AddMembers> {
                   obj.addMembersAndBudget(widget.groupID, members);
                   print('----------');
                   obj.printAllGroups();
-                  widget.editList
-                      ? Navigator.pop(context)
-                      : Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  GroupPage(groupID: widget.groupID)));
+                  Navigator.pop(context);
                 },
-                child: widget.editList ? Text('save') : Text('Submit'),
+                child: widget.editList ? Text('save') : Text('go back'),
               ),
             ],
           ),
@@ -137,7 +137,10 @@ class _AddMembersState extends State<AddMembers> {
             onPressed: () {
               // Create a new member with the entered values
               final Member newMember = Member(
-                  id: memberId, name: currentName, budget: currentBudget);
+                  id: memberId,
+                  name: currentName,
+                  budget: currentBudget,
+                  totalBudget: currentBudget);
 
               // Clear input fields
               setState(() {
@@ -176,17 +179,23 @@ class _AddMembersState extends State<AddMembers> {
       child: Row(
         children: [
           Expanded(
-            child: Text('Name: ${member.name} | Budget: ${member.budget}'),
+            child: widget.editList
+                ? Text('Name: ${member.name} | Budget: ${member.budget}')
+                : Text('${member.name} has ₹${member.budget} left'),
           ),
-          IconButton(
-            onPressed: () {
-              // Remove the member from the list
-              setState(() {
-                members.removeAt(index);
-              });
-            },
-            icon: Icon(Icons.remove),
-          ),
+          widget.editList
+              ? IconButton(
+                  onPressed: () {
+                    // Remove the member from the list
+                    setState(() {
+                      members.removeAt(index);
+                    });
+                  },
+                  icon: Icon(Icons.remove),
+                )
+              : SizedBox(
+                  height: 50,
+                ),
         ],
       ),
     );
