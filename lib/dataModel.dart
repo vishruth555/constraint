@@ -20,12 +20,14 @@ class Member {
   String name;
   double budget;
   double? totalBudget;
+  double? temp;
 
   Member(
       {required this.id,
       required this.budget,
       required this.name,
-      this.totalBudget});
+      this.totalBudget,
+      this.temp});
 }
 
 class Expense {

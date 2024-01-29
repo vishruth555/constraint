@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:constraint/dataModel.dart';
 import 'package:constraint/state_management.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +60,22 @@ class _SplitBillPopupState extends State<SplitBillPopup> {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      ElevatedButton(onPressed: () {}, child: Text('custom')),
+                      ElevatedButton(
+                          onPressed: () {
+                            // Navigator.pop(context);
+                            // Push a new route to enter custom values for each member
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomSplitPopup(
+                                    groupId: widget.id,
+                                    group: widget.group,
+                                    amount: amount,
+                                    title: _subjectEditingController.text,
+                                  ),
+                                ));
+                          },
+                          child: Text('custom')),
                       SizedBox(
                         width: 10,
                       ),
@@ -105,5 +123,108 @@ class _SplitBillPopupState extends State<SplitBillPopup> {
   void dispose() {
     _amountEditingController.dispose();
     super.dispose();
+  }
+}
+
+class CustomSplitPopup extends StatelessWidget {
+  final int groupId;
+  final Group group;
+  final double amount;
+  final String title;
+
+  const CustomSplitPopup(
+      {required this.group,
+      required this.amount,
+      required this.title,
+      required this.groupId});
+
+  @override
+  Widget build(BuildContext context) {
+    final members = group.members;
+    final obj = context.read<Manager>();
+    return Consumer<Manager>(
+        builder: (context, value, child) => AlertDialog(
+              title: Text('Enter Custom Split'),
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    for (final member in members!)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              child: Text(member.name)),
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                  labelText: 'Enter amount for ${member.name}'),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                member.temp = double.parse(value);
+                                // Handle custom amount input for each member
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            // Handle custom split logic here
+                            double expense = 0;
+                            for (Member member in members) {
+                              member.budget -= member.temp ?? 0;
+                              expense += member.temp ?? 0;
+                            }
+                            obj.groups[groupId].members = members;
+                            obj.groups[groupId].totalBudget =
+                                (obj.groups[groupId].totalBudget! - expense)!;
+                            print('check here');
+                            print(expense);
+                            print(obj.groups[groupId].totalBudget);
+
+                            final expenses = obj.groups[groupId].expenses ?? [];
+                            final len = expenses.length;
+                            Expense customExpense = Expense(
+                              id: len,
+                              title: title,
+                              amount: expense,
+                              time: DateTime.now(),
+                            );
+                            // obj.addExpense(widget.id, expense);
+                            expenses.add(customExpense);
+
+                            obj.groups[groupId].expenses = expenses;
+
+                            obj.notifyListeners();
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          child: Text('Split'),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Handle custom split logic here
+                            Navigator.pop(context);
+                          },
+                          child: Text('Cancel'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ));
   }
 }

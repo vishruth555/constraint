@@ -58,6 +58,11 @@ class Manager extends ChangeNotifier {
     notifyListeners();
   }
 
+  // void customExpense(int id, List<Expense> expenses) {
+  //   _groups[id].expenses = expenses;
+  //   notifyListeners();
+  // }
+
   void addMembersAndBudget(int index, List<Member> members) {
     _groups[index].members = members;
     double _totalBudget = 0;
