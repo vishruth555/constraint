@@ -2,6 +2,7 @@ import 'package:constraint/addMembers.dart';
 import 'package:constraint/dataModel.dart';
 import 'package:constraint/splitBillPopup.dart';
 import 'package:constraint/state_management.dart';
+import 'package:constraint/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'utils.dart';
@@ -56,7 +57,15 @@ class _GroupPageState extends State<GroupPage> {
                       },
                       icon: Icon(Icons.supervisor_account_rounded)),
                   IconButton(
-                      onPressed: () {}, icon: Icon(Icons.data_usage_outlined)),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Stats(
+                                      groupId: widget.groupID,
+                                    )));
+                      },
+                      icon: Icon(Icons.data_usage_outlined)),
                 ],
               ),
               body: Column(

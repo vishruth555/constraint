@@ -68,17 +68,19 @@ class _AddMembersState extends State<AddMembers> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  // Perform action on button press (e.g., submit the form)
-                  print('Submitted Members: $members');
-                  int id = 0;
-                  for (Member member in members) {
-                    member.id = id;
-                    id++;
-                    print(member.id);
+                  if (widget.editList) {
+                    // Perform action on button press (e.g., submit the form)
+                    print('Submitted Members: $members');
+                    int id = 0;
+                    for (Member member in members) {
+                      member.id = id;
+                      id++;
+                      print(member.id);
+                    }
+                    obj.addMembersAndBudget(widget.groupID, members);
+                    print('----------');
+                    obj.printAllGroups();
                   }
-                  obj.addMembersAndBudget(widget.groupID, members);
-                  print('----------');
-                  obj.printAllGroups();
                   Navigator.pop(context);
                 },
                 child: widget.editList ? Text('save') : Text('go back'),
