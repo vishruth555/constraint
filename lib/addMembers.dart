@@ -8,39 +8,36 @@ import 'utils.dart';
 class AddMembers extends StatefulWidget {
   int groupID;
   bool editList;
-  AddMembers({required this.groupID, required this.editList});
+  AddMembers({super.key, required this.groupID, required this.editList});
   @override
   State<AddMembers> createState() => _AddMembersState();
 }
 
 class _AddMembersState extends State<AddMembers> {
   List<Member> members = [];
-
   int memberId = 0;
   String currentName = '';
   double currentBudget = 0.0;
   String groupName = '';
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     final obj = context.read<Manager>();
     groupName = obj.groups[widget.groupID].name;
     members = obj.groups[widget.groupID].members ?? [];
-
-    obj.addMembersAndBudget(widget.groupID, members);
-
     memberId = obj.groups[widget.groupID].members?.length ?? 0;
+    // obj.addMembersAndBudget(widget.groupID, members);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: color1,
         appBar: AppBar(
           backgroundColor: color2,
           foregroundColor: basic1,
-          // leading: IconButton(
-          //     icon: Icon(Icons.arrow_back_ios_new_rounded),
-          //     onPressed: () {
-          //       Navigator.pop(context);
-          //     }),
           title: Text('Members of $groupName'),
         ),
         body: Padding(
@@ -55,12 +52,10 @@ class _AddMembersState extends State<AddMembers> {
                   itemCount: members.length + 1,
                   itemBuilder: (context, index) {
                     if (index == members.length) {
-                      // Last item for adding new member
                       return widget.editList
                           ? buildAddMemberRow()
                           : Container();
                     } else {
-                      // Input fields for existing members
                       return buildMemberRow(index);
                     }
                   },
@@ -69,7 +64,6 @@ class _AddMembersState extends State<AddMembers> {
               ElevatedButton(
                 onPressed: () {
                   if (widget.editList) {
-                    // Perform action on button press (e.g., submit the form)
                     print('Submitted Members: $members');
                     int id = 0;
                     for (Member member in members) {
@@ -77,6 +71,7 @@ class _AddMembersState extends State<AddMembers> {
                       id++;
                       print(member.id);
                     }
+                    final obj = context.read<Manager>();
                     obj.addMembersAndBudget(widget.groupID, members);
                     print('----------');
                     obj.printAllGroups();
@@ -115,7 +110,6 @@ class _AddMembersState extends State<AddMembers> {
             child: TextFormField(
               decoration: InputDecoration(labelText: 'Name'),
               onChanged: (value) {
-                // Handle name input
                 setState(() {
                   currentName = value;
                 });
@@ -128,7 +122,6 @@ class _AddMembersState extends State<AddMembers> {
               decoration: InputDecoration(labelText: 'Budget'),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               onChanged: (value) {
-                // Handle budget input
                 setState(() {
                   currentBudget = double.tryParse(value) ?? 0.0;
                 });
@@ -137,14 +130,11 @@ class _AddMembersState extends State<AddMembers> {
           ),
           IconButton(
             onPressed: () {
-              // Create a new member with the entered values
               final Member newMember = Member(
                   id: memberId,
                   name: currentName,
                   budget: currentBudget,
                   totalBudget: currentBudget);
-
-              // Clear input fields
               setState(() {
                 currentName = '';
                 currentBudget = 0.0;
@@ -188,7 +178,6 @@ class _AddMembersState extends State<AddMembers> {
           widget.editList
               ? IconButton(
                   onPressed: () {
-                    // Remove the member from the list
                     setState(() {
                       members.removeAt(index);
                     });

@@ -59,6 +59,7 @@ class _SplitBillPopupState extends State<SplitBillPopup> {
                     Text('each has to pay ${amount / membersLength}'),
                   const SizedBox(height: 16),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
                           onPressed: () {
@@ -76,9 +77,6 @@ class _SplitBillPopupState extends State<SplitBillPopup> {
                                 ));
                           },
                           child: Text('custom')),
-                      SizedBox(
-                        width: 10,
-                      ),
                       ElevatedButton(
                         onPressed: () {
                           print(membersLength);
@@ -104,16 +102,16 @@ class _SplitBillPopupState extends State<SplitBillPopup> {
                         },
                         child: Text('Split'),
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('cancel')),
                     ],
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('cancel')),
                 ],
               ),
             ));

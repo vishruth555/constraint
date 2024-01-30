@@ -48,46 +48,48 @@ class _StatsState extends State<Stats> {
                 ),
                 title: Text('Stats for ${obj.groups[widget.groupId].name}'),
               ),
-              body: Column(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: Text(
-                      'Budget Analysis',
-                      style: TextStyle(fontSize: 32, color: Colors.white),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  AspectRatio(
-                    aspectRatio: 1.2,
-                    child: PieChart(PieChartData(
-                      sections:
-                          _generateSections(budgetMap), // Define your data here
-                      centerSpaceRadius: 80,
-                      borderData: FlBorderData(show: false),
-                      sectionsSpace: 5,
-                      pieTouchData: PieTouchData(enabled: true),
-                    )),
-                  ),
-                  expenditureMap.isEmpty
-                      ? Container()
-                      : Text(
-                          'Expenditure analysis',
-                          style: TextStyle(fontSize: 32, color: Colors.white),
-                        ),
-                  AspectRatio(
-                    aspectRatio: 1.2,
-                    child: PieChart(PieChartData(
-                      sections: _generateSections(
-                          expenditureMap), // Define your data here
-                      centerSpaceRadius: 80,
-                      borderData: FlBorderData(show: false),
-                      sectionsSpace: 5,
-                      pieTouchData: PieTouchData(enabled: true),
-                    )),
-                  ),
-                ],
+                    Center(
+                      child: Text(
+                        'Budget Analysis',
+                        style: TextStyle(fontSize: 32, color: Colors.white),
+                      ),
+                    ),
+                    AspectRatio(
+                      aspectRatio: 1.2,
+                      child: PieChart(PieChartData(
+                        sections: _generateSections(
+                            budgetMap), // Define your data here
+                        centerSpaceRadius: 80,
+                        borderData: FlBorderData(show: false),
+                        sectionsSpace: 5,
+                        pieTouchData: PieTouchData(enabled: true),
+                      )),
+                    ),
+                    expenditureMap.isEmpty
+                        ? Container()
+                        : Text(
+                            'Expenditure analysis',
+                            style: TextStyle(fontSize: 32, color: Colors.white),
+                          ),
+                    AspectRatio(
+                      aspectRatio: 1.2,
+                      child: PieChart(PieChartData(
+                        sections: _generateSections(
+                            expenditureMap), // Define your data here
+                        centerSpaceRadius: 80,
+                        borderData: FlBorderData(show: false),
+                        sectionsSpace: 5,
+                        pieTouchData: PieTouchData(enabled: true),
+                      )),
+                    ),
+                  ],
+                ),
               ),
             ));
   }

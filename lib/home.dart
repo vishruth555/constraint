@@ -65,6 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildGroupCard(Group group, int id) {
+    double width = (group.totalBudget ?? 0.0) / (group.budget ?? 1.0);
+    if (width == 0 || width.isNaN) {
+      width = 0.1;
+    }
     return GestureDetector(
       onTap: () {
         // Handle the onTap event
@@ -98,9 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 10,
-                ),
                 Center(
                   child: Text(
                     group.name,
@@ -109,9 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.bold,
                         color: color4),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 15),
@@ -125,8 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const Spacer(), // Add Spacer to push the containers to the bottom
                 FractionallySizedBox(
-                  widthFactor:
-                      (group.totalBudget ?? 0.0) / (group.budget ?? 1.0),
+                  widthFactor: width,
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
