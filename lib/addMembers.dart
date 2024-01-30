@@ -65,6 +65,13 @@ class _AddMembersState extends State<AddMembers> {
                 onPressed: () {
                   if (widget.editList) {
                     print('Submitted Members: $members');
+                    if (members.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('add some members'),
+                        duration: Duration(seconds: 2),
+                      ));
+                      return;
+                    }
                     int id = 0;
                     for (Member member in members) {
                       member.id = id;

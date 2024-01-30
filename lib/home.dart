@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -111,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: color4),
                   ),
                 ),
+                const Spacer(),
                 Padding(
                   padding: EdgeInsets.only(left: 15),
                   child: Text(
